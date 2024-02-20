@@ -1,13 +1,13 @@
-import { Aside, PokemonList } from "./components";
+import { QueryClient, QueryClientProvider } from "react-query";
+import PokemonApp from "./PokemonApp";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <section>
-      <main className="max-w-[1400px] mx-auto grid gird-cols-1 lg:grid-cols-[1fr_350px] h-screen font-outfit">
-        <PokemonList />
-        <Aside />
-      </main>
-    </section>
+    <QueryClientProvider client={queryClient}>
+      <PokemonApp />
+    </QueryClientProvider>
   );
 }
 
