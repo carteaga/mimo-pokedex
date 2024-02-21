@@ -1,10 +1,21 @@
 import { usePokemonList } from "../hooks";
 import { PokemonList } from ".";
+import { filterPokemonsResumenByName } from "./PokemonList.utils";
 
-const PokemonListContainer = () => {
+type PokemonListContainerProps = {
+  filterByName?: string;
+};
+
+const PokemonListContainer = (props: PokemonListContainerProps) => {
+  const { filterByName } = props;
+
   const { data: pokemonResumeList = [] } = usePokemonList();
 
-  return <PokemonList pokemonResume={pokemonResumeList} />;
+  const pokemonFiltered = !!filterByName
+    ? pokemonResumeList.filter(filterPokemonsResumenByName(filterByName))
+    : pokemonResumeList;
+
+  return <PokemonList pokemonResume={pokemonFiltered} />;
 };
 
 export default PokemonListContainer;
