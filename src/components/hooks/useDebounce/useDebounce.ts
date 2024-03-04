@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 const DEFAULT_DELAY_IN_MS = 500;
 
 const useDebounce = <T>(value: T, delay?: number): T => {
+  const delayInMs = delay ?? DEFAULT_DELAY_IN_MS;
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timerId = setTimeout(() => {
       setDebouncedValue(value);
-    }, delay ?? DEFAULT_DELAY_IN_MS);
+    }, delayInMs);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timerId);
     };
   }, [value, delay]);
 
