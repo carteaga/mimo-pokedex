@@ -1,7 +1,7 @@
 import { usePokemonList } from "../hooks";
 import { PokemonList } from ".";
-import { filterPokemonsResumenByName } from "./PokemonList.utils";
-import { isEmpty } from "../../utils";
+import { filterListPokemonByName } from "./PokemonList.utils";
+import { useIntersectionObserver } from "../hooks/useInterserctionObserver/useIntersectionObserver";
 
 type PokemonListContainerProps = {
   filterByName?: string;
@@ -11,12 +11,23 @@ const PokemonListContainer = (props: PokemonListContainerProps) => {
   const { filterByName } = props;
 
   const { data: pokemonResumeList = [] } = usePokemonList();
+  const pokemonFiltered = filterListPokemonByName(
+    pokemonResumeList,
+    filterByName
+  );
 
-  const pokemonFiltered = isEmpty(filterByName)
-    ? pokemonResumeList
-    : pokemonResumeList.filter(filterPokemonsResumenByName(filterByName));
+  const { isIntersecting, ref } = useIntersectionObserver();
 
-  return <PokemonList pokemonResume={pokemonFiltered} />;
+  if (isIntersecting) {
+    console.count("isIntersecting");
+  }
+
+  return (
+    <>
+      <PokemonList pokemonResume={pokemonFiltered} />
+      <span ref={ref} />
+    </>
+  );
 };
 
 export default PokemonListContainer;

@@ -2,12 +2,29 @@ import axios from "axios";
 import { Pokemon, PokemonListRequest } from "../entities/Pokemon";
 
 const API = "https://pokeapi.co/api/v2/pokemon";
-const LIMIT_POKEMON_WITH_ANIMATION = 100;
+const DEFAULT_CONFIG: Required<getPokemonsProps> = {
+  page: 1,
+  itemsPerPage: 100,
+};
 
-export const getPokemons = async () => {
-  const { data } = await axios.get<PokemonListRequest>(
-    `${API}?limit=${LIMIT_POKEMON_WITH_ANIMATION}`
-  );
+type getPokemonsProps = {
+  page?: number;
+  itemsPerPage?: number;
+};
+
+export const getPokemons = async (props: getPokemonsProps = {}) => {
+  const { page, itemsPerPage } = { ...DEFAULT_CONFIG, ...props };
+
+  const offset = (page - 1) * itemsPerPage;
+  const limit = itemsPerPage;
+
+  const { data } = await axios.get<PokemonListRequest>(API, {
+    params: {
+      limit,
+      offset,
+    },
+  });
+
   const { results } = data;
 
   return results;
