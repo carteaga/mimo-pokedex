@@ -10,7 +10,7 @@ type PokemonListContainerProps = {
 const PokemonListContainer = (props: PokemonListContainerProps) => {
   const { filterByName } = props;
 
-  const { data: pokemonResumeList = [] } = usePokemonList();
+  const { data: pokemonResumeList = [], fetchNextPage } = usePokemonList();
   const pokemonFiltered = filterListPokemonByName(
     pokemonResumeList,
     filterByName
@@ -19,7 +19,7 @@ const PokemonListContainer = (props: PokemonListContainerProps) => {
   const { isIntersecting, ref } = useIntersectionObserver();
 
   if (isIntersecting) {
-    console.count("isIntersecting");
+    fetchNextPage();
   }
 
   return (
