@@ -1,11 +1,5 @@
-import ModalPOkemon from "../ModalPokemon/ModalPokemon";
-
 const Aside = () => {
-  return (
-    <div className="hidden lg:block">
-      <ModalPOkemon />
-    </div>
-  );
+  return <div className="hidden lg:block">Aside</div>;
 };
 
 export default Aside;
