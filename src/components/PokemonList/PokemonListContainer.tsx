@@ -5,10 +5,11 @@ import { useIntersectionObserver } from "../hooks/useInterserctionObserver/useIn
 
 type PokemonListContainerProps = {
   filterByName?: string;
+  onPokemonClick?: (pokemonById: number) => void;
 };
 
 const PokemonListContainer = (props: PokemonListContainerProps) => {
-  const { filterByName } = props;
+  const { filterByName, onPokemonClick = () => {} } = props;
 
   const { data: pokemonResumeList = [], fetchNextPage } = usePokemonList();
   const pokemonFiltered = filterListPokemonByName(
@@ -24,7 +25,10 @@ const PokemonListContainer = (props: PokemonListContainerProps) => {
 
   return (
     <>
-      <PokemonList pokemonResume={pokemonFiltered} />
+      <PokemonList
+        pokemonResume={pokemonFiltered}
+        onPokemonClick={onPokemonClick}
+      />
       <span ref={ref} />
     </>
   );

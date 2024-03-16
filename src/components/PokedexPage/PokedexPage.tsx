@@ -3,10 +3,12 @@ import PokemonListContainer from "../PokemonList/PokemonListContainer";
 import PokemonInputSearch from "./PokemonInputSearch";
 import { useDebounce } from "../hooks/useDebounce";
 import { PokedexContainer } from "./PokedexContainer";
+import usePokemonContext from "../contexts/PokemonProvider/usePokemonContext";
 
 const PokedexPage = () => {
   const [search, setSearch] = React.useState("");
   const searchDebounced = useDebounce(search);
+  const { showPokemonById } = usePokemonContext();
 
   const handleInputSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -15,10 +17,17 @@ const PokedexPage = () => {
     setSearch(value);
   };
 
+  const handlePokemonClick = (pokemonId: number) => {
+    showPokemonById(pokemonId);
+  };
+
   return (
     <PokedexContainer>
       <PokemonInputSearch onChange={handleInputSearch} />
-      <PokemonListContainer filterByName={searchDebounced} />
+      <PokemonListContainer
+        filterByName={searchDebounced}
+        onPokemonClick={handlePokemonClick}
+      />
     </PokedexContainer>
   );
 };

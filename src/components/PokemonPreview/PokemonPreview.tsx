@@ -1,15 +1,19 @@
 import { colorByType } from "../../constants/pokemon";
 import { Pokemon } from "../../entities/Pokemon";
 
-type PokemonProps = {
+export type PokemonPreviewProps = {
   pokemon: Pokemon;
+  onPokemonClick?: (pokemonId: number) => void;
 };
 
-const PokemonPreview = (props: PokemonProps) => {
-  const { pokemon } = props;
+const PokemonPreview = (props: PokemonPreviewProps) => {
+  const { pokemon, onPokemonClick = () => undefined } = props;
 
   return (
-    <article className="text-center bg-white rounded-[30px] relative font-semibold capitalize pb-2 shadow-lg shadow-slate-400/10 border-2 border-transparent hover:border-slate-200 cursor-pointer group grid gap-2">
+    <article
+      onClick={() => onPokemonClick(pokemon.id)}
+      className="text-center bg-white rounded-[30px] relative font-semibold capitalize pb-2 shadow-lg shadow-slate-400/10 border-2 border-transparent hover:border-slate-200 cursor-pointer group grid gap-2"
+    >
       <header className="h-9">
         <img
           className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 group-hover:scale-110 transition-transform pixelated"
